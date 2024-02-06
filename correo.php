@@ -50,8 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     
         // Definir la ruta donde deseas guardar los archivos adjuntos
-       // $ruta_destino = '/xampp/htdocs/adjuntos/' . $adjunto_nombre;
-        $ruta_destino = '/var/www/html/adjuntos/' . $adjunto_nombre;
+        $ruta_destino = 'adjuntos/' . $adjunto_nombre;
 
         // Mover el archivo cargado a la ubicación deseada
         if (!move_uploaded_file($adjunto_tmp_name, $ruta_destino)) {
