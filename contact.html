@@ -16,10 +16,7 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
       <!-- Enlace a Bootstrap CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-
-
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <!-- style css -->
@@ -37,21 +34,15 @@
       <link rel="stylesheet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
 
-
-
-
-
       <style>
          #miFormulario {
              text-align: center;
          }
- 
          .send_bt {
              margin-top: 10px; /* Ajusta el margen superior según sea necesario */
          }
- 
          #popup {
-             display: none;
+            display: none;
              position: fixed;
              top: 50%;
              left: 50%;
@@ -61,11 +52,9 @@
              border: 1px solid #ccc;
              text-align: center;
          }
- 
          #popup p {
              margin-bottom: 10px;
          }
- 
          #popup button {
              padding: 5px 10px;
          }
@@ -123,12 +112,15 @@
 
 
          function enviarCorreo() {
-             var formData = $("#miFormulario").serialize();
+            var formData = new FormData($("#miFormulario")[0]);
+
      
              $.ajax({
                  type: "POST",
                  url: "correo.php",
                  data: formData,
+                 processData: false,
+        contentType: false,
                  success: function(response) {
                      // Manejar la respuesta del servidor
                      console.log(response);
@@ -207,11 +199,13 @@ formulario.reset();
 
                         
                         <form action="correo.php" method="POST" id="miFormulario" enctype="multipart/form-data">
+                           
                         <input type="text" class="Email_text" placeholder="Name" name="name" required="">
                         <input type="email" class="Email_text" placeholder="email" name="email" required="">
                         <textarea class="massage-bt" placeholder="Massage" rows="5" id="comment" name="msg" required=""></textarea>
+                        <input type="file" name="adjunto" id="adjunto" multiple>
                         <input class="send_bt" type="button" value="Enviar" onclick="enviarCorreo()">
-                        <input type="file" name="archivo_adjunto">
+                       
 
                       <!-- <input class="send_bt" type="submit" name="enviar"><a href="#"></a></div>-->
 

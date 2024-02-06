@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener datos del formulario y sanearlos
     $name = htmlspecialchars($_POST['name']);
     $email = htmlspecialchars($_POST['email']);
-   
     $message = htmlspecialchars($_POST['msg']);
 
     // Configuración de PHPMailer
@@ -36,16 +35,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Configurar contenido del mensaje para Zoho
     $mail->isHTML(true);
+    $mail->Subject = "Nuevo Mensaje de Contacto";
+    $mail->Body = "Has recibido un nuevo mensaje desde el formulario de contacto de tu sitio web.<br><br>Detalles:<br><br>Nombre: $name<br>Email: $email<br>Mensaje: $message";
 
+    // Si se ha enviado un archivo adjunto
+    if (isset($_FILES['adjunto'])) {
+        $adjunto_nombre = $_FILES['adjunto']['name'];
+        $adjunto_tmp_name = $_FILES['adjunto']['tmp_name'];
+    
+        if ($_FILES['adjunto']['error'] !== UPLOAD_ERR_OK) {
+            http_response_code(500);
+            echo "Error al subir el archivo: " . $_FILES['adjunto']['error'];
+            exit();
+        }
+    
+        // Definir la ruta donde deseas guardar los archivos adjuntos
+       // $ruta_destino = '/xampp/htdocs/adjuntos/' . $adjunto_nombre;
+        $ruta_destino = '/var/www/html/adjuntos/' . $adjunto_nombre;
 
+        // Mover el archivo cargado a la ubicación deseada
+        if (!move_uploaded_file($adjunto_tmp_name, $ruta_destino)) {
+            http_response_code(500);
+            echo "Error al mover el archivo adjunto";
+            exit();
+        }
 
-$mail->Subject = "Nuevo Mensaje de Contacto";
-$mail->Body = "Has recibido un nuevo mensaje desde el formulario de contacto de tu sitio web.<br><br>Detalles:<br><br>Nombre: $name<br>Email: $email<br>Mensaje: $message";
-
-
-
-  //  $mail->Body = "Has recibido un nuevo mensaje desde el formulario de contacto de tu sitio web.<br><br>Detalles:<br><br>Nombre: $name<br>Email: $email<br>Mensaje: $message";
-
+        // Agregar el archivo adjunto al correo
+        $mail->addAttachment($ruta_destino);
+    }
 
     try {
         // Enviar correo a Zoho
@@ -55,46 +72,43 @@ $mail->Body = "Has recibido un nuevo mensaje desde el formulario de contacto de 
         $mail->clearAddresses();
         $mail->addAddress($email);
         $mail->Subject = "Gracias por ponerte en contacto";
-     //   $mail->Body = "¡Gracias por ponerte en contacto con nosotros, $name!<br><br>Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.<br><br><br>Mensaje: $message";
-$mail->Body = "  <!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Agradecimiento</title>
-    <style>
-        body {
-            background-color: #e6f7ff;
-            text-align: center;
-        }
-        .container {
-            border: 2px solid #80bfff;
-            padding: 20px;
-            margin: 20px auto;
-            background-color: #ccf2ff;
-            max-width: 600px;
-            border-radius: 10px;
-        }
-        h1 {
-            color: #0066cc;
-        }
-        p {
-            color: #004080;
-        }
-    </style>
-</head>
-<body>
-    <div class='container'>
-        <h1>¡Gracias por ponerte en contacto!</h1>
-        <p>Hemos recibido tu mensaje <p><strong>Mensaje:</strong> $message</p>  y nos pondremos en contacto contigo pronto.</p>
-        <p><em>Este es un mensaje de agradecimiento personalizado y profesional.</em></p>
-    </div>
-</body>
-</html>
-";
+        $mail->Body = "<!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Agradecimiento</title>
+            <style>
+                body {
+                    background-color: #e6f7ff;
+                    text-align: center;
+                }
+                .container {
+                    border: 2px solid #80bfff;
+                    padding: 20px;
+                    margin: 20px auto;
+                    background-color: #ccf2ff;
+                    max-width: 600px;
+                    border-radius: 10px;
+                }
+                h1 {
+                    color: #0066cc;
+                }
+                p {
+                    color: #004080;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h1>¡Gracias por ponerte en contacto!</h1>
+                <p>Hemos recibido tu mensaje <p><strong>Mensaje:</strong> $message</p>  y nos pondremos en contacto contigo pronto.</p>
+                <p><em>Este es un mensaje de agradecimiento personalizado y profesional.</em></p>
+            </div>
+        </body>
+        </html>";
 
-
-$mail->send();
+        $mail->send();
 
         echo "Mensaje enviado correctamente";
     } catch (Exception $e) {
@@ -105,8 +119,6 @@ $mail->send();
 } else {
     // Redirigir si no es una solicitud POST
     header("Location: contact.html");
-exit();
+    exit();
 }
 ?>
-
-
