@@ -13,6 +13,14 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- bootstrap css -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+      <!-- Enlace a Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+
+
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <!-- style css -->
       <link rel="stylesheet" href="css/style.css">
@@ -28,6 +36,47 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesheet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
+
+
+
+
+      <style>
+         #miFormulario {
+             text-align: center;
+         }
+ 
+         .send_bt {
+             margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+         }
+ 
+         #popup {
+             display: none;
+             position: fixed;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+             background-color: #fff;
+             padding: 20px;
+             border: 1px solid #ccc;
+             text-align: center;
+         }
+ 
+         #popup p {
+             margin-bottom: 10px;
+         }
+ 
+         #popup button {
+             padding: 5px 10px;
+         }
+     </style>
+
+
+
+
+
+
+
    </head>
    <body>
       <!-- header section start -->
@@ -65,6 +114,73 @@
          </nav>
       </div>
       <!-- header section end -->
+
+
+
+
+      <script>
+
+
+
+         function enviarCorreo() {
+             var formData = $("#miFormulario").serialize();
+     
+             $.ajax({
+                 type: "POST",
+                 url: "correo.php",
+                 data: formData,
+                 success: function(response) {
+                     // Manejar la respuesta del servidor
+                     console.log(response);
+
+                    // Mostrar mensaje de éxito con SweetAlert2
+            Swal.fire({
+                icon: 'success',
+                title: 'Mensaje enviado correctamente',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+
+
+                     
+                     limpiarCampos();
+                     // Mostrar la ventana emergente
+                    
+                 },
+                 error: function(error) {
+                     // Manejar errores
+                     console.error(error);
+                 }
+             });
+         }
+     
+
+
+         function mostrarPopup() {
+             document.getElementById('popup').style.display = 'block';
+         }
+     
+         function cerrarPopup() {
+             document.getElementById('popup').style.display = 'none';
+         }
+
+         function limpiarCampos() {
+    // Limpiar los valores de los campos del formulario
+       // Obtener el formulario por su ID
+       var formulario = document.getElementById("miFormulario");
+
+// Resetear el formulario
+formulario.reset();
+}  
+
+     </script>
+     
+
+
+
+
+
       <!-- contact section start -->
       <div class="contact_section layout_padding margin_90">
          <div class="container">
@@ -90,16 +206,41 @@
                         <h1 class="book_text">Book Appoinment</h1>
 
                         
-                        <form action="correo.php" method="POST">
+                        <form action="correo.php" method="POST" id="miFormulario" enctype="multipart/form-data">
                         <input type="text" class="Email_text" placeholder="Name" name="name" required="">
                         <input type="email" class="Email_text" placeholder="email" name="email" required="">
                         <textarea class="massage-bt" placeholder="Massage" rows="5" id="comment" name="msg" required=""></textarea>
-                        
-                        <input class="send_bt" type="submit" name="enviar"><a href="#"></a></div>
+                        <input class="send_bt" type="button" value="Enviar" onclick="enviarCorreo()">
+                        <input type="file" name="archivo_adjunto">
+
+                      <!-- <input class="send_bt" type="submit" name="enviar"><a href="#"></a></div>-->
 
                        
                         
                      </form>
+
+                     <div id="popup" style="display:none;">
+                        <p>Mensaje enviado correctamente</p>
+                        <button onclick="cerrarPopup()">Cerrar</button>
+                    </div>
+                    
+                    <script>
+                        function mostrarPopup() {
+                            document.getElementById('popup').style.display = 'block';
+                        }
+                    
+                        function cerrarPopup() {
+                            document.getElementById('popup').style.display = 'none';
+                        }
+                    </script>
+
+
+
+
+
+
+
+
                      </div>
                   </div>
                </div>
