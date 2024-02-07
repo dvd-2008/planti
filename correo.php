@@ -21,16 +21,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Configuración de PHPMailer
     $mail = new PHPMailer(true);
+   
     $mail->isSMTP();
-    $mail->Host = 'smtp.zoho.com';
+    $mail->Host = 'smtp.zeptomail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'davidhuaman@davidh.tech';
-    $mail->Password = 'Geyda.20';
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Username = 'emailapikey';
+    $mail->Password = 'wSsVR60nrBH1C/8szTClIOk/nAtcUgv0RB4r3AHzviT0SPjE9sdpk0LOV1OmSPdKGGZhFDQVpOkvzk1R1jYI29ktzVBRXiiF9mqRe1U4J3x17qnvhDzCXG9fmhqBKo8MxQ1ikmZpG8sl+g==';
+    $mail->SMTPSecure =  'TLS';
     $mail->Port = 587;
 
     // Configurar remitente y destinatario para Zoho
-    $mail->setFrom('davidhuaman@davidh.tech', 'david');
+    $mail->setFrom('noreply@davidh.tech', 'david');
     $mail->addAddress('davidhuaman@davidh.tech'); // Correo de Zoho
 
     // Configurar contenido del mensaje para Zoho
