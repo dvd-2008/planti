@@ -96,18 +96,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 h1 {
                     color: #4285f4;
+                    font-size: 24px;
+                    margin-bottom: 20px;
                 }
                 p {
                     color: #333333;
+                    font-size: 16px;
                     line-height: 1.6;
+                    margin-bottom: 10px;
+                }
+                strong {
+                    font-weight: bold;
+                }
+                a {
+                    color: #4285f4;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
                 }
             </style>
         </head>
         <body>
             <div class='container'>
-                <h1>¡Gracias por ponerte en contacto!</h1>
-                <p>Hemos recibido tu mensaje <strong>'$message'</strong> y nos pondremos en contacto contigo pronto.</p>
-                <p><em>Este es un mensaje de agradecimiento personalizado y profesional.</em></p>
+                <h1>¡Gracias por Ponerte en Contacto!</h1>
+                <p>Estimado <strong>$name</strong>,</p>
+                <p>Hemos recibido tu mensaje y te agradecemos por tu interés en nuestra empresa.</p>
+                <p>Nos pondremos en contacto contigo pronto en la dirección de correo electrónico <strong>$email</strong> proporcionada.</p>
+                <p><em>Atentamente,<br>El Equipo de [BUHO S.A.C]</em></p>
+                <p><a href='https://www.tuempresa.com' target='_blank'>Visita nuestro sitio web</a> para obtener más información sobre nuestros productos y servicios.</p>
             </div>
         </body>
         </html>";
