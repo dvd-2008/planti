@@ -40,16 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->Body = "Has recibido un nuevo mensaje desde el formulario de contacto de tu sitio web.<br><br>Detalles:<br><br>Nombre: $name<br>Email: $email<br>Mensaje: $message";
 
     // Si se ha enviado un archivo adjunto
-    if (isset($_FILES['adjunto'])) {
+    if (!empty($_FILES['adjunto']['name'])) {
         $adjunto_nombre = $_FILES['adjunto']['name'];
         $adjunto_tmp_name = $_FILES['adjunto']['tmp_name'];
-    
+
         if ($_FILES['adjunto']['error'] !== UPLOAD_ERR_OK) {
             http_response_code(500);
             echo "Error al subir el archivo: " . $_FILES['adjunto']['error'];
             exit();
         }
-    
+
         // Definir la ruta donde deseas guardar los archivos adjuntos
         $ruta_destino = 'adjuntos/' . $adjunto_nombre;
 
@@ -80,29 +80,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <title>Agradecimiento</title>
             <style>
                 body {
-                    background-color: #e6f7ff;
-                    text-align: center;
+                    font-family: Arial, sans-serif;
+                    background-color: #f2f2f2;
+                    margin: 0;
+                    padding: 0;
                 }
                 .container {
-                    border: 2px solid #80bfff;
+                    border: 1px solid #dddddd;
                     padding: 20px;
                     margin: 20px auto;
-                    background-color: #ccf2ff;
+                    background-color: #ffffff;
                     max-width: 600px;
-                    border-radius: 10px;
+                    border-radius: 5px;
+                    text-align: center;
                 }
                 h1 {
-                    color: #0066cc;
+                    color: #4285f4;
                 }
                 p {
-                    color: #004080;
+                    color: #333333;
+                    line-height: 1.6;
                 }
             </style>
         </head>
         <body>
             <div class='container'>
                 <h1>¡Gracias por ponerte en contacto!</h1>
-                <p>Hemos recibido tu mensaje <p><strong>Mensaje:</strong> $message</p>  y nos pondremos en contacto contigo pronto.</p>
+                <p>Hemos recibido tu mensaje <strong>'$message'</strong> y nos pondremos en contacto contigo pronto.</p>
                 <p><em>Este es un mensaje de agradecimiento personalizado y profesional.</em></p>
             </div>
         </body>
